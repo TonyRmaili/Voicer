@@ -3,3 +3,9 @@
 venv
 
 .env
+
+frontend/node_modules
+/dist
+
+# Firebase configuration
+frontend/src/firebase.js
