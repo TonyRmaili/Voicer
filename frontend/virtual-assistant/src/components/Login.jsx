@@ -1,9 +1,10 @@
+// src/components/Login.jsx
 import React, { useState } from "react";
-import { auth } from "../firebase"; // Ensure this path is correct
+import { auth } from "../firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-const Auth = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
@@ -16,13 +17,11 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        // Log in the user
         await signInWithEmailAndPassword(auth, email, password);
       } else {
-        // Register the user
         await createUserWithEmailAndPassword(auth, email, password);
       }
-      navigate("/dashboard"); // Navigate to the dashboard after successful login/signup
+      navigate("/dashboard"); // Ensure this route exists in your routing setup
     } catch (err) {
       setError(err.message);
     }
@@ -68,4 +67,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Login;

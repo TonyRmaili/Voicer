@@ -4,8 +4,9 @@ venv
 
 .env
 
-frontend/node_modules
+frontend/virtual-assistant/node_modules
 /dist
 
-# Firebase configuration
-frontend/src/firebase.js
+frontend/virtual-assistant/.env
+
+frontend/virtual-assistant/src/save.txt
