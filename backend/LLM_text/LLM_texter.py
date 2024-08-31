@@ -13,25 +13,31 @@ class LLMTexter:
             api_key=os.getenv("OPENAI_API_KEY")
         )
         # define the paths
-        self.user = user
         self.json_path = "./json_log/"
-        self.full_path = self.json_path + self.user + ".json"
+        self.user = user +"/"
+        self.full_path = self.json_path + self.user + role+".json"
 
         # models
         self.model_gpt_4o_mini = "gpt-4o-mini"
 
         # hard defined assistant roles. Defaults to personal assistant
+       
         if role =="teacher":
             self.role = {"role":"system","content":"You are my personal teacher."}
 
+        elif role =="therapist":
+            self.role = {"role":"system","content":"You are my personal therapist."}
+                
         else:
             self.role = {"role":"system","content":"You are my personal assistant."}
+
 
         # init conversation log
         self.load_json_conversation()
 
     def load_json_conversation(self):
-             
+        os.makedirs(os.path.dirname(self.full_path), exist_ok=True)
+
         # Check if the file exists
         if not os.path.exists(self.full_path):
             # Create an empty JSON file with the correct name
@@ -73,8 +79,8 @@ class LLMTexter:
 
 
 if __name__=="__main__":
-    llm_texter = LLMTexter(role="teacher",user="tony")
+    llm_texter = LLMTexter(role="therapist",user="pavan")
     
-    resp = llm_texter.conversation(prompt="what would happen if i raised the answer to the third power?")
+    resp = llm_texter.conversation(prompt="i feel better now, thank you")
     print(resp)
     
