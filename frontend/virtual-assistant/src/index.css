@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* src/index.css or src/styles/index.css */
+.custom-box {
+    height: 96px;
+    width: 96px;
+    background-color: #2D3748;
+    border-radius: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-bar {
+    height: 4px;
+    background: linear-gradient(to right, #4299E1, #48BB78);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .custom-circle {
+    height: 48px;
+    width: 48px;
+    background: linear-gradient(to right, #4299E1, #48BB78);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: vibrate 0.2s linear infinite;
+  }
+  
+  @keyframes vibrate {
+    0%, 100% {
+      transform: translate(-50%, -50%) translateX(0);
+    }
+    25% {
+      transform: translate(-50%, -50%) translateX(-2px);
+    }
+    50% {
+      transform: translate(-50%, -50%) translateX(2px);
+    }
+    75% {
+      transform: translate(-50%, -50%) translateX(-2px);
+    }
+  }
+  

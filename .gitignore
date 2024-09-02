@@ -10,3 +10,4 @@ frontend/virtual-assistant/node_modules
 frontend/virtual-assistant/.env
 
 frontend/virtual-assistant/src/save.txt
+frontend/virtual-assistant/src/next.txt
