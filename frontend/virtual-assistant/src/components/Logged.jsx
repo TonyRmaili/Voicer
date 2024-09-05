@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import mentorImage from '../assets/mentor.png';
 import teacherImage from '../assets/teacher.png';
@@ -14,7 +15,7 @@ const personas = [
 
 const Logged = ({ user, logout }) => {
   const [selectedPersona, setSelectedPersona] = useState(null);
-  const { speaking, listening, conversation, handleListen, audioBlob } = useSpeech(selectedPersona); 
+  const { speaking, listening, conversation, handleListen, restartConversation, conversationEnded, audioBlob } = useSpeech(selectedPersona);  // Added conversationEnded and restartConversation
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -56,6 +57,14 @@ const Logged = ({ user, logout }) => {
       await saveConversationToFirestore(user.uid, conversation);
     } else {
       alert('No conversation to save.');
+    }
+  };
+
+  const handleStartListening = () => {
+    if (conversationEnded) {
+      restartConversation();  // Reset the conversationEnded flag and restart the conversation
+    } else {
+      handleListen();
     }
   };
 
@@ -103,23 +112,21 @@ const Logged = ({ user, logout }) => {
               options={{
                 height: 20,
                 amplitude: 40,
-                speed: 0.15,
+                speed: 0.55,
                 points: 3
               }}
             />
           </div>
         )}
 
-{/* Redesigned Square Animation Box with Larger Vibrating Circle */}
-<div className="mt-auto">
-  <div className="relative h-24 w-24 bg-gray-700 rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className={`h-12 w-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-full transform ${speaking ? 'animate-ping animate-vibrate' : ''}`}></div>
-    </div>
-    <div className={`absolute inset-0 h-2 bg-gradient-to-r from-blue-500 via-green-500 to-blue-500 transform ${speaking ? 'animate-gradient-x' : ''}`}></div>
-  </div>
-</div>
-
+        <div className="mt-auto">
+          <div className="relative h-24 w-24 bg-gray-700 rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className={`h-12 w-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-full transform ${speaking ? 'animate-ping animate-vibrate' : ''}`}></div>
+            </div>
+            <div className={`absolute inset-0 h-2 bg-gradient-to-r from-blue-500 via-green-500 to-blue-500 transform ${speaking ? 'animate-gradient-x' : ''}`}></div>
+          </div>
+        </div>
       </div>
 
       <div className="flex-1 flex flex-col">
@@ -153,7 +160,7 @@ const Logged = ({ user, logout }) => {
 
             <div className="p-4 bg-gray-800">
               <button
-                onClick={handleListen}
+                onClick={handleStartListening}  // Use the new function to handle listening and restarting
                 disabled={speaking}
                 className={`w-full px-4 py-2 rounded transition ${
                   speaking

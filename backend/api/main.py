@@ -1,14 +1,9 @@
-import os
-from fastapi import FastAPI, HTTPException, UploadFile, File, Query
-from fastapi.responses import StreamingResponse
-from api.schemas.schemas import ChatRequest, ChatResponse
-from api.models.models import save_conversation
+from fastapi import FastAPI, HTTPException
 import openai
 import firebase_admin
-from dotenv import load_dotenv
 from firebase_admin import firestore, credentials
-import uuid
-import io
+import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -16,61 +11,57 @@ app = FastAPI()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+# Firebase initialization
 cred = credentials.Certificate("service-account.json")
 firebase_admin.initialize_app(cred)
-
 db = firestore.client()
 
+# Function to get persona-specific prompt
+def get_persona_prompt(persona: str) -> str:
+    prompts = {
+        "teacher": """
+        You are a teacher. Only provide responses related to teaching, education, or learning. 
+        If the user asks something unrelated, respond with: 'I can only discuss education-related topics.'
+        """,
+        "mentor": """
+        You are a mentor. Provide advice, encouragement, and guidance. 
+        If the user asks about unrelated topics, respond with: 'I can only provide mentoring and guidance.'
+        """
+    }
+
+    # Return the prompt for the selected persona, or a default prompt if not found
+    return prompts.get(persona, "You are a helpful assistant. Please assist the user with their queries.")
 
 @app.post("/full-process")
-async def full_process(file: UploadFile = File(...), user_id: str = Query(...)):
+async def full_process(request: dict):
     try:
-        audio_file = await file.read()
+        transcript = request['transcript']
+        persona_prompt = request['personaPrompt']
+        selected_persona = request['selectedPersona']
 
-        transcription_response = openai.audio.transcribe("whisper", file=audio_file)
+        # Keywords to guide the conversation
+        teaching_keywords = ["teach", "school", "education", "learn"]
+        advice_keywords = ["advice", "guidance", "encouragement", "help"]
 
-        if "text" not in transcription_response:
-            raise HTTPException(status_code=400, detail="Failed to transcribe audio or no text found.")
-        
-        transcription = transcription_response["text"]
+        if selected_persona == "teacher" and not any(keyword in transcript.lower() for keyword in teaching_keywords):
+            return {"response": "I'm here to discuss teaching topics. Please ask me something related to education."}
 
-        gpt_response = openai.chat.completions.create(
+        if selected_persona == "mentor" and not any(keyword in transcript.lower() for keyword in advice_keywords):
+            return {"response": "As your mentor, I offer advice and encouragement. Let's stick to that."}
+
+        # Generate a response using GPT-4 with the persona-specific prompt and conversation context
+        gpt_response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": transcription}
-            ],
-            max_tokens=150,
-            temperature=0.7
+                {"role": "system", "content": persona_prompt}  # Use the provided persona prompt here
+            ] + [{"role": "user", "content": transcript}],
+            max_tokens=100,
+            temperature=0.5
         )
 
-        if not gpt_response or "choices" not in gpt_response or not gpt_response["choices"]:
-            raise HTTPException(status_code=400, detail="Failed to generate response.")
-        
-        generated_response = gpt_response["choices"][0]["text"].strip()
+        generated_response = gpt_response["choices"][0]["message"]["content"].strip()
 
-        doc_ref = db.collection("conversations").document(user_id).collection("conversation").add({
-            "transcription": transcription,
-            "response": generated_response
-        })
-
-        tts_response = openai.audio.speech.create(
-            model="tts-1",
-            input=generated_response,
-            voice="nova"
-        )
-
-        if not tts_response or "audio" not in tts_response:
-            raise HTTPException(status_code=500, detail="Text-to-speech conversion failed.")
-        
-        # If one wants to save the audio file, uncomment the following line
-        # audio_file = f"{uuid.uuid4()}.mp3"
-        # with open(audio_file, "wb") as audio_file:
-        #     audio_file.write(tts_response["audio"]
-        #                      )
-
-        audio_stream = io.BytesIO(tts_response["audio"])
-        return {StreamingResponse(audio_stream, media_type="audio/mpeg")}
+        return {"response": generated_response}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -129,14 +120,6 @@ async def text_to_speech(text: str):
         if not tts_response or "audio" not in tts_response:
             raise HTTPException(status_code=500, detail="Text-to-speech conversion failed.")
         
-
-        # If one wants to save the audio file, uncomment the following lines
-        # audio_file = f"{uuid.uuid4()}.mp3"
-        # with open(audio_file, "wb") as audio_file:
-        #     audio_file.write(tts_response["audio"]
-        #                      )
-        # return {"audio": f"/download_audio/{audio_file}"}
-
         audio_stream = io.BytesIO(tts_response["audio"])
         return {StreamingResponse(audio_stream, media_type="audio/mpeg")}
 
@@ -157,30 +140,3 @@ async def conversation_history(user_id: str = Query(...)):
         return {"history": history}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-
-# Create an endpoint to handle chat requests
-# @app.post("/chat", response_model=ChatResponse)
-# async def chat(request: ChatRequest):
-#     try:
-#         # Generate response using OpenAI API
-#         response = openai.chat.completions.create(
-#             model="gpt-4",  # or use "gpt-3.5-turbo"
-#             messages=[
-#                 {"role": "system", "content": "You are a helpful assistant."},
-#                 {"role": "user", "content": request.message},
-#             ]
-#         )
-
-#         assistant_response = response['choices'][0]['message']['content']
-
-#         # Save the conversation to Firestore
-#         save_conversation(db, request.message, assistant_response)
-
-#         return ChatResponse(response=assistant_response)
-
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=str(e))
-
-# # Additional routes and logic can be added here

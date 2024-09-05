@@ -11,3 +11,4 @@ frontend/virtual-assistant/.env
 
 frontend/virtual-assistant/src/save.txt
 frontend/virtual-assistant/src/next.txt
+frontend/virtual-assistant/src/components/assistant.py
