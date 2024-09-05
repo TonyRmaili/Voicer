@@ -1,9 +1,11 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File, Query
 import openai
 import firebase_admin
 from firebase_admin import firestore, credentials
 import os
 from dotenv import load_dotenv
+import io
+from starlette.responses import StreamingResponse
 
 load_dotenv()
 
@@ -18,49 +20,57 @@ db = firestore.client()
 
 # Function to get persona-specific prompt
 def get_persona_prompt(persona: str) -> str:
-    prompts = {
-        "teacher": """
-        You are a teacher. Only provide responses related to teaching, education, or learning. 
-        If the user asks something unrelated, respond with: 'I can only discuss education-related topics.'
-        """,
-        "mentor": """
-        You are a mentor. Provide advice, encouragement, and guidance. 
-        If the user asks about unrelated topics, respond with: 'I can only provide mentoring and guidance.'
+    if persona == "teacher":
+        return """
+        You are a strict teacher. Only provide responses about education, teaching methods, or learning. 
+        Refuse to answer any other questions by saying: 'I can only discuss teaching-related topics.'
         """
-    }
-
-    # Return the prompt for the selected persona, or a default prompt if not found
-    return prompts.get(persona, "You are a helpful assistant. Please assist the user with their queries.")
+    elif persona == "mentor":
+        return """
+        You are a wise mentor. Offer advice, encouragement, and guidance.
+        If asked about unrelated topics, politely say: 'I only provide mentoring and advice.'
+        """
+    else:
+        return "You are a general assistant. Help the user with any query they may have."
 
 @app.post("/full-process")
 async def full_process(request: dict):
     try:
         transcript = request['transcript']
-        persona_prompt = request['personaPrompt']
         selected_persona = request['selectedPersona']
 
-        # Keywords to guide the conversation
-        teaching_keywords = ["teach", "school", "education", "learn"]
-        advice_keywords = ["advice", "guidance", "encouragement", "help"]
+        # Fetch the persona-specific prompt
+        persona_prompt = get_persona_prompt(selected_persona)
 
-        if selected_persona == "teacher" and not any(keyword in transcript.lower() for keyword in teaching_keywords):
-            return {"response": "I'm here to discuss teaching topics. Please ask me something related to education."}
+        # System message construction
+        system_message = f"""
+        You are playing the role of {selected_persona}. 
+        Follow this prompt strictly:
+        {persona_prompt}.
+        Only respond within the context of this role.
+        """
 
-        if selected_persona == "mentor" and not any(keyword in transcript.lower() for keyword in advice_keywords):
-            return {"response": "As your mentor, I offer advice and encouragement. Let's stick to that."}
 
-        # Generate a response using GPT-4 with the persona-specific prompt and conversation context
+        # Debug: Log the request and system message for verification
+        print(f"System Message: {system_message}")
+        print(f"Transcript: {transcript}")
+
+        # Generate a response using GPT-4 with the persona-specific prompt
         gpt_response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": persona_prompt}  # Use the provided persona prompt here
-            ] + [{"role": "user", "content": transcript}],
-            max_tokens=100,
+                {"role": "system", "content": system_message},  # System message defining the persona
+                {"role": "user", "content": transcript}  # User's input
+            ],
+            max_tokens=150,
             temperature=0.5
         )
 
-        generated_response = gpt_response["choices"][0]["message"]["content"].strip()
+        # Log the raw response from GPT-4 for debugging
+        print(f"GPT-4 Response: {gpt_response}")
 
+        # Extract and return the response
+        generated_response = gpt_response["choices"][0]["message"]["content"].strip()
         return {"response": generated_response}
 
     except Exception as e:
@@ -121,7 +131,7 @@ async def text_to_speech(text: str):
             raise HTTPException(status_code=500, detail="Text-to-speech conversion failed.")
         
         audio_stream = io.BytesIO(tts_response["audio"])
-        return {StreamingResponse(audio_stream, media_type="audio/mpeg")}
+        return StreamingResponse(audio_stream, media_type="audio/mpeg")
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

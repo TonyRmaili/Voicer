@@ -10,6 +10,9 @@ const Login = ({ login, loginError }) => {
     login(email, password);
   };
 
+  
+
+ 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-900 text-white">
       <form onSubmit={handleLogin} className="bg-gray-800 p-8 rounded-lg shadow-lg w-96">

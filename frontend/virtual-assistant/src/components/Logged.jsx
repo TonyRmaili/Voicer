@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import mentorImage from '../assets/mentor.png';
 import teacherImage from '../assets/teacher.png';
@@ -6,7 +5,7 @@ import logoImage from '../assets/logo.png';
 import { useSpeech } from '../hooks/useSpeech';
 import { saveConversationToFirestore } from '../firebase';
 import { FiLogOut } from 'react-icons/fi';
-import Wavify from 'react-wavify';  // Example visualizer library
+import Wavify from 'react-wavify';
 
 const personas = [
   { id: 'teacher', name: 'Teacher', image: teacherImage, voice: 'alloy' },
@@ -15,40 +14,19 @@ const personas = [
 
 const Logged = ({ user, logout }) => {
   const [selectedPersona, setSelectedPersona] = useState(null);
-  const { speaking, listening, conversation, handleListen, restartConversation, conversationEnded, audioBlob } = useSpeech(selectedPersona);  // Added conversationEnded and restartConversation
+  const { speaking, listening, conversation, handleListen, restartConversation, conversationEnded, audioBlob } = useSpeech(selectedPersona);
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     if (audioBlob) {
       const audioUrl = URL.createObjectURL(audioBlob);
-
-      // Create an audio element and set its source to the blob URL
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
-
-      // When the audio starts playing, trigger the visualizer
-      audio.onplay = () => {
-        setIsPlaying(true);
-      };
-
-      // When the audio stops playing, stop the visualizer
-      audio.onended = () => {
-        setIsPlaying(false);
-      };
-
-      // Play the audio once it's loaded
-      audio.onloadeddata = () => {
-        audio.play().catch(error => {
-          console.error('Error playing audio:', error);
-        });
-      };
-
-      // Clean up the audio object when the component unmounts or audioBlob changes
-      return () => {
-        audioRef.current = null;
-        URL.revokeObjectURL(audioUrl);
-      };
+      audio.onplay = () => setIsPlaying(true);
+      audio.onended = () => setIsPlaying(false);
+      audio.play();
+      return () => URL.revokeObjectURL(audioUrl);
     }
   }, [audioBlob]);
 
@@ -62,7 +40,7 @@ const Logged = ({ user, logout }) => {
 
   const handleStartListening = () => {
     if (conversationEnded) {
-      restartConversation();  // Reset the conversationEnded flag and restart the conversation
+      restartConversation();
     } else {
       handleListen();
     }
@@ -160,7 +138,7 @@ const Logged = ({ user, logout }) => {
 
             <div className="p-4 bg-gray-800">
               <button
-                onClick={handleStartListening}  // Use the new function to handle listening and restarting
+                onClick={handleStartListening}
                 disabled={speaking}
                 className={`w-full px-4 py-2 rounded transition ${
                   speaking

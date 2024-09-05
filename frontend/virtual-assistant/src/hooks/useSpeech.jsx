@@ -1,19 +1,18 @@
-
-
 import { useEffect, useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { sendTranscriptToBackend, textToSpeechWithOpenAI } from '../components/API';
+import { useAuth } from './useAuth';
 
 export const useSpeech = (selectedPersona) => {
   const [response, setResponse] = useState('');
   const [speaking, setSpeaking] = useState(false);
   const [listening, setListening] = useState(false);
   const [conversation, setConversation] = useState([]);
-  const [audioBlob, setAudioBlob] = useState(null);  // Added audioBlob state
-  const [conversationEnded, setConversationEnded] = useState(false);  // Track conversation end
+  const [audioBlob, setAudioBlob] = useState(null);
+  const [conversationEnded, setConversationEnded] = useState(false);
   const { transcript, resetTranscript, listening: isListening } = useSpeechRecognition();
+  const { user } = useAuth();
 
-  // The keyword to end the conversation
   const END_KEYWORD = "goodbye";
 
   useEffect(() => {
@@ -30,27 +29,23 @@ export const useSpeech = (selectedPersona) => {
   const handleListen = () => {
     if (!conversationEnded) {
       resetTranscript();
-      SpeechRecognition.startListening({ continuous: false });  // Set continuous to false for short bursts
+      SpeechRecognition.startListening({ continuous: false });
     }
   };
 
   const handleSendTranscript = async () => {
-    // Check if the transcript contains the end keyword
     if (transcript.toLowerCase().includes(END_KEYWORD)) {
       const goodbyeMessage = "Goodbye! Ending the conversation.";
-      
-      // Set conversation as ended, and prepare for audio playback
       setConversationEnded(true);
       setResponse(goodbyeMessage);
       setConversation(prev => [...prev, { role: 'user', content: transcript }, { role: 'assistant', content: goodbyeMessage }]);
-      
-      // Generate and play the goodbye audio
-      handleTextToSpeech(goodbyeMessage, true);  // true indicates this is the final audio
+      handleTextToSpeech(goodbyeMessage, true);
       return;
     }
 
-    // Send the transcript and selected persona to the backend
-    const assistantResponse = await sendTranscriptToBackend(transcript, selectedPersona);
+    const email = user?.email;
+    const assistantResponse = await sendTranscriptToBackend(transcript, selectedPersona, email);
+
     if (assistantResponse) {
       setResponse(assistantResponse);
       setConversation(prev => [...prev, { role: 'user', content: transcript }, { role: 'assistant', content: assistantResponse }]);
@@ -61,17 +56,14 @@ export const useSpeech = (selectedPersona) => {
   const handleTextToSpeech = async (text, isFinal = false) => {
     const audioBlob = await textToSpeechWithOpenAI(text, selectedPersona.voice);
     if (audioBlob) {
-      setAudioBlob(audioBlob);  // Set the audioBlob state
+      setAudioBlob(audioBlob);
 
       const audioUrl = URL.createObjectURL(audioBlob);
-
       const audio = new Audio(audioUrl);
       audio.onplay = () => setSpeaking(true);
       audio.onended = () => {
         setSpeaking(false);
         URL.revokeObjectURL(audioUrl);
-
-        // If the goodbye audio has played, do not start listening again
         if (!isFinal && !conversationEnded) {
           handleListen();
         }
@@ -82,8 +74,8 @@ export const useSpeech = (selectedPersona) => {
   };
 
   const restartConversation = () => {
-    setConversationEnded(false);  // Reset conversation ended flag
-    handleListen();  // Start listening again
+    setConversationEnded(false);
+    handleListen();
   };
 
   return {
@@ -91,10 +83,10 @@ export const useSpeech = (selectedPersona) => {
     speaking,
     listening,
     conversation,
-    audioBlob,  // Return audioBlob for external components
+    audioBlob,
     handleListen,
     setConversation,
     conversationEnded,
-    restartConversation,  // Expose the restart function
+    restartConversation,
   };
 };
