@@ -10,3 +10,4 @@ class ChatResponse(BaseModel):
 class Chat(BaseModel):
     role: str
     prompt: str
+    user : str

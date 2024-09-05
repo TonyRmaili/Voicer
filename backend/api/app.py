@@ -26,6 +26,6 @@ app.add_middleware(
 
 @app.post("/prompt", tags=["chat"])
 def post_prompt(chat: Chat):
-    texter = LLMTexter(role=chat.role, user="tony")
+    texter = LLMTexter(role=chat.role, user=chat.user)
     response = texter.conversation(prompt=chat.prompt)
     return response

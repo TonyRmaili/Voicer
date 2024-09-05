@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { sendTranscriptToBackend, textToSpeechWithOpenAI } from '../components/API';
+import { useAuth } from './useAuth';
+
 
 export const useSpeech = (selectedPersona) => {
   const [response, setResponse] = useState('');
@@ -9,6 +11,10 @@ export const useSpeech = (selectedPersona) => {
   const [listening, setListening] = useState(false);
   const [conversation, setConversation] = useState([]);
   const { transcript, resetTranscript, listening: isListening } = useSpeechRecognition();
+  const { user } = useAuth()
+
+
+  
 
   useEffect(() => {
     if (isListening) {
@@ -27,7 +33,8 @@ export const useSpeech = (selectedPersona) => {
   };
 
   const handleSendTranscript = async () => {
-    const assistantResponse = await sendTranscriptToBackend(transcript, selectedPersona);
+    const email = user?.email
+    const assistantResponse = await sendTranscriptToBackend(transcript, selectedPersona,email);
     if (assistantResponse) {
       setResponse(assistantResponse);
       setConversation(prev => [...prev, { role: 'user', content: transcript }, { role: 'assistant', content: assistantResponse }]);

@@ -2,13 +2,14 @@ import axios from 'axios';
 
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
-export const sendTranscriptToBackend = async (transcript, selectedPersona) => {
+export const sendTranscriptToBackend = async (transcript, selectedPersona, email) => {
   try {
     const response = await axios.post(
       'http://localhost:8000/prompt',
       {
         role: selectedPersona.id, 
         prompt: transcript,
+        user : email,
         
       },
       {
