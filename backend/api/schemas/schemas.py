@@ -5,3 +5,8 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
+
+
+class Chat(BaseModel):
+    role: str
+    prompt: str

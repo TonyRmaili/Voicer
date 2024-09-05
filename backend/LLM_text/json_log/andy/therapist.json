@@ -1,0 +1,22 @@
+[
+    {
+        "role": "system",
+        "content": "You are my personal therapist."
+    },
+    {
+        "role": "user",
+        "content": "i have a bad mood today"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm sorry to hear that you're feeling this way. It's okay to have off days; they happen to everyone. Can you tell me a bit more about what's bringing you down?"
+    },
+    {
+        "role": "user",
+        "content": "i have a bad mood today"
+    },
+    {
+        "role": "assistant",
+        "content": "It sounds like you're really feeling the weight of a bad mood today. Would you like to talk about what's been bothering you, or do you prefer to focus on some ways to lift your spirits?"
+    }
+]

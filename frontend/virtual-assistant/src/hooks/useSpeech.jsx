@@ -1,7 +1,7 @@
 // src/hooks/useSpeech.js
 import { useEffect, useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { sendTranscriptToOpenAI, textToSpeechWithOpenAI } from '../components/API';
+import { sendTranscriptToBackend, textToSpeechWithOpenAI } from '../components/API';
 
 export const useSpeech = (selectedPersona) => {
   const [response, setResponse] = useState('');
@@ -27,7 +27,7 @@ export const useSpeech = (selectedPersona) => {
   };
 
   const handleSendTranscript = async () => {
-    const assistantResponse = await sendTranscriptToOpenAI(transcript, selectedPersona);
+    const assistantResponse = await sendTranscriptToBackend(transcript, selectedPersona);
     if (assistantResponse) {
       setResponse(assistantResponse);
       setConversation(prev => [...prev, { role: 'user', content: transcript }, { role: 'assistant', content: assistantResponse }]);

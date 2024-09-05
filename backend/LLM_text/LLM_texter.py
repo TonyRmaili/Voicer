@@ -12,10 +12,11 @@ class LLMTexter:
         self.client = OpenAI(
             api_key=os.getenv("OPENAI_API_KEY")
         )
-        # define the paths
-        self.json_path = "./json_log/"
-        self.user = user +"/"
-        self.full_path = self.json_path + self.user + role+".json"
+        
+        # define the paths using os.path.join for platform-independent path construction
+        self.json_path = os.path.join(".", "json_log")
+        self.user = user
+        self.full_path = os.path.join(self.json_path, self.user, f"{role}.json")
 
         # models
         self.model_gpt_4o_mini = "gpt-4o-mini"
