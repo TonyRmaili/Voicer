@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import mentorImage from '../assets/mentor.png';
+import therapistImage from '../assets/mentor.png';
 import teacherImage from '../assets/teacher.png';
+import chefImage from '../assets/kock.png';
+import trainerImage from '../assets/trainer.png';
 import logoImage from '../assets/logo.png';
 import { useSpeech } from '../hooks/useSpeech';
 import { saveConversationToFirestore } from '../firebase';
@@ -9,7 +11,9 @@ import Wavify from 'react-wavify';  // Example visualizer library
 
 const personas = [
   { id: 'teacher', name: 'Teacher', image: teacherImage, voice: 'alloy' },
-  { id: 'mentor', name: 'Mentor', image: mentorImage, voice: 'onyx' },
+  { id: 'therapist', name: 'Therapist', image: therapistImage, voice: 'alloy' },
+  { id: 'chef', name: 'Chef', image: chefImage, voice: 'onyx' },
+  { id: 'personal_trainer', name: 'Personal trainer', image: trainerImage, voice: 'onyx' },
 ];
 
 const Logged = ({ user, logout }) => {
