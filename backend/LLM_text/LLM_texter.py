@@ -2,7 +2,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 import json
-
+from LLM_text.system_prompt import teacher, therapist, chef, personal_trainer
 
 
 class LLMTexter:
@@ -24,10 +24,16 @@ class LLMTexter:
         # hard defined assistant roles. Defaults to personal assistant
        
         if role =="teacher":
-            self.role = {"role":"system","content":"You are my personal teacher. Try only responed as a teacher. If something else is asked inform that i am only a teacher"}
+            self.role = teacher
 
         elif role =="therapist":
-            self.role = {"role":"system","content":"You are my personal therapist."}
+            self.role = therapist
+
+        elif role =="chef":
+            self.role = chef
+
+        elif role =="personal_trainer":
+            self.role = personal_trainer
                 
         else:
             self.role = {"role":"system","content":"You are my personal assistant."}
@@ -80,8 +86,9 @@ class LLMTexter:
 
 
 if __name__=="__main__":
-    llm_texter = LLMTexter(role="therapist",user="pavan")
+    llm_texter = LLMTexter(role="teacher",user="tony")
     
-    resp = llm_texter.conversation(prompt="i feel better now, thank you")
-    print(resp)
+    # resp = llm_texter.conversation(prompt="give me a math equation to solve.")
+    # print(resp)
     
+    print(llm_texter.role)
