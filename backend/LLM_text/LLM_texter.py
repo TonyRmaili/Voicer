@@ -24,7 +24,7 @@ class LLMTexter:
         # hard defined assistant roles. Defaults to personal assistant
        
         if role =="teacher":
-            self.role = {"role":"system","content":"You are my personal teacher."}
+            self.role = {"role":"system","content":"You are my personal teacher. Try only responed as a teacher. If something else is asked inform that i am only a teacher"}
 
         elif role =="therapist":
             self.role = {"role":"system","content":"You are my personal therapist."}
