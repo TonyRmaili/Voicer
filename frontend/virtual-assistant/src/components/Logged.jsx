@@ -8,10 +8,17 @@ import { useSpeech } from '../hooks/useSpeech';
 import swedishImage from '../assets/swedish.png'; 
 import germanImage from '../assets/german.png';   
 import frenchImage from '../assets/french.png';   
+import englishImage from '../assets/english.png';
 import { saveConversationToFirestore } from '../firebase';
 import { FiLogOut } from 'react-icons/fi';
-import Wavify from 'react-wavify';  // Example visualizer library
+import Wavify from 'react-wavify';  
 
+const languages = {
+  Swedish: 'sv', //  Swedish
+  German: 'de',  //  German
+  French: 'fr',  //  French
+  English: 'en', //  English
+};
 
 const personas = [
   { id: 'teacher', name: 'Teacher', image: teacherImage, voice: 'alloy' },
@@ -22,6 +29,7 @@ const personas = [
 
 const Logged = ({ user, logout }) => {
   const [selectedPersona, setSelectedPersona] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState(null); // State for selected language
   const { speaking, listening, conversation, handleListen, audioBlob } = useSpeech(selectedPersona); 
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -67,6 +75,12 @@ const Logged = ({ user, logout }) => {
     }
   };
 
+  const handleLanguageSelect = (language) => {
+    setSelectedLanguage(language);
+    console.log(`${language} selected`); // Logic for handling selected language
+   
+  };
+
   return (
     <div className="flex h-screen bg-gray-900 text-white">
       <div className="w-64 bg-gray-800 p-4 flex flex-col justify-between">
@@ -109,22 +123,37 @@ const Logged = ({ user, logout }) => {
     <h3 className="text-lg font-bold mb-2">Select Language:</h3>
     <div className="space-y-2">
         <button
-            onClick={() => console.log('Swedish selected')} // Replace with your logic
-            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out bg-gray-700 hover:bg-gray-900 text-white`}
+            onClick={() => handleLanguageSelect('Swedish')}
+            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
+              selectedLanguage === 'Swedish' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
+            }`}
         >
             <img src={swedishImage} alt="Swedish" className="w-10 h-10 rounded-full object-cover" />
             <span>Swedish</span>
         </button>
         <button
-            onClick={() => console.log('German selected')} // Replace with your logic
-            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out bg-gray-700 hover:bg-gray-900 text-white`}
+  onClick={() => handleLanguageSelect(languages.English)}
+  className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
+    selectedLanguage === languages.English ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
+  }`}
+>
+  <img src={englishImage} alt="English" className="w-10 h-10 rounded-full object-cover" />
+  <span>English</span>
+</button>
+        <button
+            onClick={() => handleLanguageSelect('German')}
+            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
+              selectedLanguage === 'German' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
+            }`}
         >
             <img src={germanImage} alt="German" className="w-10 h-10 rounded-full object-cover" />
             <span>German</span>
         </button>
         <button
-            onClick={() => console.log('French selected')} // Replace with your logic
-            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out bg-gray-700 hover:bg-gray-900 text-white`}
+            onClick={() => handleLanguageSelect('French')}
+            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
+              selectedLanguage === 'French' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
+            }`}
         >
             <img src={frenchImage} alt="French" className="w-10 h-10 rounded-full object-cover" />
             <span>French</span>
