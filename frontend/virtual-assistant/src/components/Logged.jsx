@@ -5,9 +5,13 @@ import chefImage from '../assets/kock.png';
 import trainerImage from '../assets/trainer.png';
 import logoImage from '../assets/logo.png';
 import { useSpeech } from '../hooks/useSpeech';
+import swedishImage from '../assets/swedish.png'; 
+import germanImage from '../assets/german.png';   
+import frenchImage from '../assets/french.png';   
 import { saveConversationToFirestore } from '../firebase';
 import { FiLogOut } from 'react-icons/fi';
 import Wavify from 'react-wavify';  // Example visualizer library
+
 
 const personas = [
   { id: 'teacher', name: 'Teacher', image: teacherImage, voice: 'alloy' },
@@ -97,6 +101,41 @@ const Logged = ({ user, logout }) => {
           </div>
         </div>
 
+        
+        
+
+{/* Language Options Section */}
+<div className="mt-4">
+    <h3 className="text-lg font-bold mb-2">Select Language:</h3>
+    <div className="space-y-2">
+        <button
+            onClick={() => console.log('Swedish selected')} // Replace with your logic
+            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out bg-gray-700 hover:bg-gray-900 text-white`}
+        >
+            <img src={swedishImage} alt="Swedish" className="w-10 h-10 rounded-full object-cover" />
+            <span>Swedish</span>
+        </button>
+        <button
+            onClick={() => console.log('German selected')} // Replace with your logic
+            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out bg-gray-700 hover:bg-gray-900 text-white`}
+        >
+            <img src={germanImage} alt="German" className="w-10 h-10 rounded-full object-cover" />
+            <span>German</span>
+        </button>
+        <button
+            onClick={() => console.log('French selected')} // Replace with your logic
+            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out bg-gray-700 hover:bg-gray-900 text-white`}
+        >
+            <img src={frenchImage} alt="French" className="w-10 h-10 rounded-full object-cover" />
+            <span>French</span>
+        </button>
+    </div>
+</div>
+
+
+
+
+                
         {/* Audio Visualizer */}
         {audioBlob && isPlaying && (
           <div className="bg-gray-700 p-4 mt-4 rounded-lg">
