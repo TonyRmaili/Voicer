@@ -14,11 +14,17 @@ import { FiLogOut } from 'react-icons/fi';
 import Wavify from 'react-wavify';  
 
 const languages = {
-  Swedish: 'sv', //  Swedish
-  German: 'de',  //  German
-  French: 'fr',  //  French
-  English: 'en', //  English
+  sv: 'Swedish',
+  de: 'German',
+  fr: 'French',
+  en: 'English'
 };
+
+const handleLanguageSelect = (languageCode) => {
+  setSelectedLanguage(languageCode); // Update the selected language state
+  alert(`You have changed the language to: ${languages[languageCode]}`); // Alert with the full language name
+};
+
 
 const personas = [
   { id: 'teacher', name: 'Teacher', image: teacherImage, voice: 'alloy' },
@@ -116,49 +122,49 @@ const Logged = ({ user, logout }) => {
         </div>
 
         
-        
+  
 
 {/* Language Options Section */}
 <div className="mt-4">
-    <h3 className="text-lg font-bold mb-2">Select Language:</h3>
-    <div className="space-y-2">
-        <button
-            onClick={() => handleLanguageSelect('Swedish')}
-            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
-              selectedLanguage === 'Swedish' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
-            }`}
-        >
-            <img src={swedishImage} alt="Swedish" className="w-10 h-10 rounded-full object-cover" />
-            <span>Swedish</span>
-        </button>
-        <button
-  onClick={() => handleLanguageSelect(languages.English)}
-  className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
-    selectedLanguage === languages.English ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
-  }`}
->
-  <img src={englishImage} alt="English" className="w-10 h-10 rounded-full object-cover" />
-  <span>English</span>
-</button>
-        <button
-            onClick={() => handleLanguageSelect('German')}
-            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
-              selectedLanguage === 'German' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
-            }`}
-        >
-            <img src={germanImage} alt="German" className="w-10 h-10 rounded-full object-cover" />
-            <span>German</span>
-        </button>
-        <button
-            onClick={() => handleLanguageSelect('French')}
-            className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
-              selectedLanguage === 'French' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
-            }`}
-        >
-            <img src={frenchImage} alt="French" className="w-10 h-10 rounded-full object-cover" />
-            <span>French</span>
-        </button>
-    </div>
+  <h3 className="text-lg font-bold mb-2">Select Language:</h3>
+  <div className="space-y-2">
+    <button
+      onClick={() => handleLanguageSelect('sv')}
+      className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
+        selectedLanguage === 'sv' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
+      }`}
+    >
+      <img src={swedishImage} alt="Swedish" className="w-10 h-10 rounded-full object-cover" />
+      <span>Swedish</span>
+    </button>
+    <button
+      onClick={() => handleLanguageSelect('en')}
+      className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
+        selectedLanguage === 'en' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
+      }`}
+    >
+      <img src={englishImage} alt="English" className="w-10 h-10 rounded-full object-cover" />
+      <span>English</span>
+    </button>
+    <button
+      onClick={() => handleLanguageSelect('de')}
+      className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
+        selectedLanguage === 'de' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
+      }`}
+    >
+      <img src={germanImage} alt="German" className="w-10 h-10 rounded-full object-cover" />
+      <span>German</span>
+    </button>
+    <button
+      onClick={() => handleLanguageSelect('fr')}
+      className={`flex items-center space-x-2 w-full p-2 rounded transition duration-300 ease-in-out ${
+        selectedLanguage === 'fr' ? 'bg-green-500 hover:bg-green-600 text-black font-bold' : 'bg-gray-700 hover:bg-gray-900 text-white'
+      }`}
+    >
+      <img src={frenchImage} alt="French" className="w-10 h-10 rounded-full object-cover" />
+      <span>French</span>
+    </button>
+  </div>
 </div>
 
 
