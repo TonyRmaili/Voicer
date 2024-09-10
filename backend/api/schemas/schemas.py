@@ -11,3 +11,9 @@ class Chat(BaseModel):
     role: str
     prompt: str
     user : str
+
+
+class CustomAssistant(BaseModel):
+    name: str
+    prompt: str
+    voice: str

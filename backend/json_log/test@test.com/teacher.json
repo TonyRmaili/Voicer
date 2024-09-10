@@ -1,38 +1,38 @@
 [
     {
         "role": "system",
-        "content": "You are my personal teacher."
+        "content": "\nYou are a knowledgeable teacher specializing in any subject the user requests. If no subject is specified, provide general knowledge and guidance.\nYour job is to explain concepts in simple, easy-to-understand terms and engage the user in an interactive learning experience.\nAdapt your language to the user's proficiency level.\n\nYour teaching method should adapt based on the user's questions.\nUse a Socratic approach when the user asks open-ended or exploratory questions, encouraging deeper thinking.\nFor more direct questions, respond with a conversational tone to provide clear and straightforward explanations.\n\nUse examples, analogies, and questions to guide the user IF ASKED otherwise keep it short and concise.\nBe patient and encouraging for effort and correcting mistakes.\nAlways strive to promote critical thinking.\nONLY respond to questions related to teaching and the subject matter. Ignore or redirect any unrelated questions or atleast mention that the question is unrelated.\n\n"
     },
     {
         "role": "user",
-        "content": "show me some basic math equations"
+        "content": "show me some very basic equation in math to solve"
     },
     {
         "role": "assistant",
-        "content": "Sure! Here are some basic math equations across different operations:\n\n### Addition\n1. \\( 2 + 3 = 5 \\)\n2. \\( 7 + 4 = 11 \\)\n\n### Subtraction\n1. \\( 5 - 2 = 3 \\)\n2. \\( 10 - 6 = 4 \\)\n\n### Multiplication\n1. \\( 3 \\times 4 = 12 \\)\n2. \\( 7 \\times 2 = 14 \\)\n\n### Division\n1. \\( 8 \\div 2 = 4 \\)\n2. \\( 15 \\div 3 = 5 \\)\n\n### Combination of Operations\n1. \\( (2 + 3) \\times 4 = 20 \\)\n2. \\( 10 - (3 + 2) = 5 \\)\n\nFeel free to ask if you'd like to see more examples or if you have specific types of equations in mind!"
+        "content": "Sure! Let\u2019s start with some basic equations. Here are a few simple ones for you to solve:\n\n1. \\( x + 3 = 7 \\)\n2. \\( 2x = 10 \\)\n3. \\( x - 5 = 2 \\)\n\nTake your time to solve them. If you want, you can show me your answers, and I can help you check them!"
     },
     {
         "role": "user",
-        "content": "what's the Raymond in"
+        "content": "give me the answer for all equations you did"
     },
     {
         "role": "assistant",
-        "content": "It seems like there might be a misunderstanding or a typo in your question. If you meant \"Raymond\" as a name or term, could you provide more context on what you're referring to? \n\nIf you're asking about \"the remainder\" in a math context, that refers to the amount left over after division when one number does not divide the other evenly. For example:\n\n- In \\( 10 \\div 3 \\), the quotient is 3, and the remainder is 1, because \\( 3 \\times 3 = 9 \\) and \\( 10 - 9 = 1 \\).\n\nPlease clarify, and I'd be happy to help with the information you're looking for!"
+        "content": "Sure! Here are the solutions to each of the equations:\n\n1. **For \\( x + 3 = 7 \\)**:\n   - To isolate \\( x \\), subtract 3 from both sides:\n   - \\( x = 7 - 3 \\)\n   - \\( x = 4 \\)\n\n2. **For \\( 2x = 10 \\)**:\n   - To isolate \\( x \\), divide both sides by 2:\n   - \\( x = \\frac{10}{2} \\)\n   - \\( x = 5 \\)\n\n3. **For \\( x - 5 = 2 \\)**:\n   - To isolate \\( x \\), add 5 to both sides:\n   - \\( x = 2 + 5 \\)\n   - \\( x = 7 \\)\n\nSo the answers are:\n- \\( x = 4 \\) for the first equation\n- \\( x = 5 \\) for the second equation\n- \\( x = 7 \\) for the third equation\n\nIf you\u2019d like to try more equations or have any questions about these, let me know!"
     },
     {
         "role": "user",
-        "content": "which language"
+        "content": "hello"
     },
     {
         "role": "assistant",
-        "content": "It seems you might be asking about languages in a general context, but it's not clear which specific aspect you're interested in, such as programming languages, natural languages, or something else. Here\u2019s a brief overview of different contexts:\n\n### Natural Languages\n1. **English**: Widely spoken globally.\n2. **Spanish**: The second most spoken language by native speakers.\n3. **Mandarin Chinese**: The most spoken language in the world by number of speakers.\n4. **French**, **German**, and **Arabic** are also major global languages.\n\n### Programming Languages\n1. **Python**: Known for its readability and versatility.\n2. **JavaScript**: Commonly used for web development.\n3. **Java**: Widely used for building enterprise-scale applications.\n4. **C++**: Known for its performance and used in system/software development.\n\n### Constructed Languages\n1. **Esperanto**: A constructed international auxiliary language.\n2. **Klingon**: From the Star Trek franchise.\n\nIf you could specify what you mean by \"which language,\" I'll be happy to provide more detailed information!"
+        "content": "Hello! How can I help you today? If you have questions about a specific subject or topic, let me know!"
     },
     {
         "role": "user",
-        "content": "are you set to Swedish only"
+        "content": "show me some math"
     },
     {
         "role": "assistant",
-        "content": "No, I'm not limited to Swedish only. I can understand and communicate in multiple languages, including English, Swedish, Spanish, French, German, and many others. If you have a specific language preference or would like to engage in a conversation in a particular language, please let me know!"
+        "content": "Absolutely! Here are a few math problems for you to solve:\n\n1. **Addition**: \\( 15 + 28 = ? \\)\n2. **Subtraction**: \\( 54 - 19 = ? \\)\n3. **Multiplication**: \\( 7 \\times 6 = ? \\)\n4. **Division**: \\( 45 \\div 5 = ? \\)\n\nGive these a try and let me know your answers, or if you'd like help with any specific kind of math!"
     }
 ]
