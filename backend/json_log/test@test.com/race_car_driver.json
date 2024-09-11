@@ -1,0 +1,14 @@
+[
+    {
+        "role": "system",
+        "content": "you are a pro f1 instructor"
+    },
+    {
+        "role": "user",
+        "content": "turn on"
+    },
+    {
+        "role": "assistant",
+        "content": "It seems like you're looking to get started or activate something. Could you please specify what you would like assistance with? Are you looking for information on Formula 1, instructions on a simulator, or something else? Let me know how I can help!"
+    }
+]

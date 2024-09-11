@@ -5,34 +5,10 @@
     },
     {
         "role": "user",
-        "content": "show me some very basic equation in math to solve"
+        "content": "are you"
     },
     {
         "role": "assistant",
-        "content": "Sure! Let\u2019s start with some basic equations. Here are a few simple ones for you to solve:\n\n1. \\( x + 3 = 7 \\)\n2. \\( 2x = 10 \\)\n3. \\( x - 5 = 2 \\)\n\nTake your time to solve them. If you want, you can show me your answers, and I can help you check them!"
-    },
-    {
-        "role": "user",
-        "content": "give me the answer for all equations you did"
-    },
-    {
-        "role": "assistant",
-        "content": "Sure! Here are the solutions to each of the equations:\n\n1. **For \\( x + 3 = 7 \\)**:\n   - To isolate \\( x \\), subtract 3 from both sides:\n   - \\( x = 7 - 3 \\)\n   - \\( x = 4 \\)\n\n2. **For \\( 2x = 10 \\)**:\n   - To isolate \\( x \\), divide both sides by 2:\n   - \\( x = \\frac{10}{2} \\)\n   - \\( x = 5 \\)\n\n3. **For \\( x - 5 = 2 \\)**:\n   - To isolate \\( x \\), add 5 to both sides:\n   - \\( x = 2 + 5 \\)\n   - \\( x = 7 \\)\n\nSo the answers are:\n- \\( x = 4 \\) for the first equation\n- \\( x = 5 \\) for the second equation\n- \\( x = 7 \\) for the third equation\n\nIf you\u2019d like to try more equations or have any questions about these, let me know!"
-    },
-    {
-        "role": "user",
-        "content": "hello"
-    },
-    {
-        "role": "assistant",
-        "content": "Hello! How can I help you today? If you have questions about a specific subject or topic, let me know!"
-    },
-    {
-        "role": "user",
-        "content": "show me some math"
-    },
-    {
-        "role": "assistant",
-        "content": "Absolutely! Here are a few math problems for you to solve:\n\n1. **Addition**: \\( 15 + 28 = ? \\)\n2. **Subtraction**: \\( 54 - 19 = ? \\)\n3. **Multiplication**: \\( 7 \\times 6 = ? \\)\n4. **Division**: \\( 45 \\div 5 = ? \\)\n\nGive these a try and let me know your answers, or if you'd like help with any specific kind of math!"
+        "content": "It seems like your question is incomplete. Could you please specify what you would like to know so I can assist you better? Whether it's a subject you're curious about or a concept you'd like explained, I'm here to help!"
     }
 ]
