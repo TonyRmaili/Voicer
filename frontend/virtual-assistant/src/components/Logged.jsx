@@ -59,10 +59,8 @@ const Logged = ({ user, logout }) => {
       try {
         const result = await scanAssistants(); // Fetch data from the API
         
-        setCustomAssistants(result);
-        
-        computeData(result)
-        
+        const enhancedAssistants = enhanceAssistants(result);
+        setCustomAssistants(enhancedAssistants);
       } catch (err) {
         setError(err.message); // Handle errors
       } finally {
