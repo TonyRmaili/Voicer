@@ -17,7 +17,7 @@ import { FiLogOut } from 'react-icons/fi';
 import Wavify from 'react-wavify';
 import CreateCustomAssistant from './CreateCustomAssistant';
 import { sendCustomAssistantToBackend, scanAssistants } from '../components/API';
-
+import computeData from './GenerateCustomAssistant';
 
 const languages = {
   sv: { name: 'Swedish', flag: swedishImage },
@@ -26,9 +26,7 @@ const languages = {
   en: { name: 'English', flag: englishImage }
 };
 
-
-
-
+ 
 const Logged = ({ user, logout }) => {
 
   const personas = [
@@ -60,8 +58,11 @@ const Logged = ({ user, logout }) => {
     const fetchData = async () => {
       try {
         const result = await scanAssistants(); // Fetch data from the API
+        
         setCustomAssistants(result);
-        console.log(result)
+        
+        computeData(result)
+        
       } catch (err) {
         setError(err.message); // Handle errors
       } finally {
@@ -71,6 +72,18 @@ const Logged = ({ user, logout }) => {
 
     fetchData(); // Call the function
   }, []); // Empty dependency array ensures it runs once
+
+ 
+  
+
+  const enhanceAssistants = (assistants) => {
+    return assistants.map(assistant => ({
+      ...assistant,
+      image: customImage, // Adding custom image
+    }));
+  };
+
+  const extendedPersonas = [...personas, ...customAssistants];
 
   useEffect(() => {
     if (audioBlob) {
@@ -137,7 +150,7 @@ const Logged = ({ user, logout }) => {
             <span className="truncate">{user.email}</span>
           </div>
           <div className="space-y-2 flex-grow">
-            {personas.map((persona) => (
+            {extendedPersonas.map((persona) => (
               <button
                 key={persona.id}
                 onClick={() => setSelectedPersona(persona)}
@@ -299,14 +312,24 @@ const Logged = ({ user, logout }) => {
       </div>
 
       {isCustomAssistantModalOpen && (
-      <CreateCustomAssistant
-      handleClose={handleCloseModal}
-      onSave={(data) => {
+  <CreateCustomAssistant
+    handleClose={handleCloseModal}
+    onSave={async (data) => {
+      try {
         console.log('Saved assistant data:', data);
-        sendCustomAssistantToBackend(data.name,data.systemPrompt,data.voice)
-      }}
-      />
-    )}
+        const response = await sendCustomAssistantToBackend(data.name, data.systemPrompt, data.voice);
+        console.log('Response from backend:', response);
+
+        // Optionally, update your custom assistants or perform other actions with the response
+        setCustomAssistants((prev) => [...prev, response]);
+        
+      } catch (error) {
+        console.error('Error sending custom assistant to backend:', error);
+      }
+    }}
+  />
+)}
+
 
     </div>
     
