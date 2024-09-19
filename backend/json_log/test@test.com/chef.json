@@ -42,5 +42,45 @@
     {
         "role": "assistant",
         "content": "I'm here to help! Feel free to ask any questions you have, whether it\u2019s about cooking, recipes, or any culinary tips you need. What would you like to know?"
+    },
+    {
+        "role": "user",
+        "content": "hey hey"
+    },
+    {
+        "role": "assistant",
+        "content": "Hey there! How can I assist you today? If you have a cooking question or need a recipe, just let me know!"
+    },
+    {
+        "role": "user",
+        "content": "shut down"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m here whenever you need me! If you have any questions or want to chat about cooking, feel free to reach out. Otherwise, take care, and I'll be ready when you return!"
+    },
+    {
+        "role": "user",
+        "content": "how are you today"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m here and ready to help you with any cooking questions or recipes you need! How can I assist you today?"
+    },
+    {
+        "role": "user",
+        "content": "how are you today sir"
+    },
+    {
+        "role": "assistant",
+        "content": "I appreciate the kind inquiry! I'm here and ready to assist you with anything you need in the kitchen. How can I help you today? If you have a recipe or cooking question in mind, just let me know!"
+    },
+    {
+        "role": "user",
+        "content": "how are you"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm here and ready to help you with any cooking questions or recipes you might need! How are you? If you have anything in particular on your mind\u2014like a dish you want to make or cooking tips\u2014just let me know!"
     }
 ]

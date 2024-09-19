@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from firebase_admin import firestore, credentials
 import uuid
 import io
+import openai
 
 load_dotenv()
 

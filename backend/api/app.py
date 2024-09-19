@@ -11,6 +11,7 @@ import json
 from fastapi.responses import JSONResponse
 from LLM_text.LLM_texter import LLMTexter
 from api.schemas.schemas import Chat
+import openai
 
 # uvicorn app.main:app --reload
 

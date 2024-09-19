@@ -12,6 +12,7 @@ import englishImage from '../assets/english.png';
 import { saveConversationToFirestore } from '../firebase';
 import { FiLogOut } from 'react-icons/fi';
 import Wavify from 'react-wavify';  
+import SpeechRecognition from 'react-speech-recognition';
 
 const languages = {
   sv: 'Swedish',
@@ -20,9 +21,53 @@ const languages = {
   en: 'English'
 };
 
-const handleLanguageSelect = (languageCode) => {
-  setSelectedLanguage(languageCode); // Update the selected language state
-  alert(`You have changed the language to: ${languages[languageCode]}`); // Alert with the full language name
+
+
+
+
+const handleLanguageSelect = (language) => {
+  setSelectedLanguage(language);
+  console.log(`${language} selected`); // Confirm language selection
+};
+
+
+const handleStop = async () => {
+  // Stop speech recognition
+  SpeechRecognition.stopListening();
+
+  // Stop the audio if it's currently playing
+  if (audioRef.current) {
+    audioRef.current.pause(); // Stop audio playback
+    audioRef.current.currentTime = 0; // Reset audio to the beginning
+    setIsPlaying(false); // Update UI to show audio has stopped
+  }
+
+  // Play "Goodbye" audio message using text-to-speech
+  const goodbyeMessage = "Goodbye! Ending the conversation.";
+  setConversation(prev => [...prev, { role: 'assistant', content: goodbyeMessage }]); // Add goodbye message to conversation
+
+  // Use text-to-speech to play the "Goodbye" message
+  const goodbyeAudioBlob = await textToSpeechWithOpenAI(goodbyeMessage, selectedPersona.voice);
+  if (goodbyeAudioBlob) {
+    const audioUrl = URL.createObjectURL(goodbyeAudioBlob);
+    const audio = new Audio(audioUrl);
+    audioRef.current = audio;
+
+    // Play "Goodbye" audio and stop all interactions after it finishes
+    audio.onplay = () => setIsPlaying(true);
+    audio.onended = () => {
+      setIsPlaying(false);
+      URL.revokeObjectURL(audioUrl); // Clean up audio URL
+      setConversationEnded(true); // Mark the conversation as ended to stop further actions
+      setListening(false); // Stop listening state
+      setSpeaking(false); // Stop speaking state
+    };
+
+    // Play the goodbye message
+    audio.play();
+  }
+
+  console.log("All operations stopped. Goodbye message played. Conversation ended.");
 };
 
 
@@ -36,7 +81,7 @@ const personas = [
 const Logged = ({ user, logout }) => {
   const [selectedPersona, setSelectedPersona] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null); // State for selected language
-  const { speaking, listening, conversation, handleListen, audioBlob } = useSpeech(selectedPersona); 
+  const { speaking, listening, conversation, handleListen, audioBlob, handleStopAndSayGoodbye } = useSpeech(selectedPersona, selectedLanguage);
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -230,26 +275,37 @@ const Logged = ({ user, logout }) => {
             </div>
 
             <div className="p-4 bg-gray-800">
-              <button
-                onClick={handleListen}
-                disabled={speaking}
-                className={`w-full px-4 py-2 rounded transition ${
-                  speaking
-                    ? 'bg-gray-600 cursor-not-allowed'
-                    : listening
-                    ? 'bg-red-600 hover:bg-red-700'
-                    : 'bg-pink-600 hover:bg-pink-700'
-                }`}
-              >
-                {speaking ? 'AI Speaking...' : listening ? 'Listening...' : 'Start Listening'}
-              </button>
-              <button
-                onClick={handleSaveConversation}
-                className="w-full px-4 py-2 mt-4 bg-green-600 rounded hover:bg-green-700 transition"
-              >
-                Save Conversation
-              </button>
-            </div>
+  <button
+    onClick={handleListen}
+    disabled={speaking}
+    className={`w-full px-4 py-2 rounded transition ${
+      speaking
+        ? 'bg-gray-600 cursor-not-allowed'
+        : listening
+        ? 'bg-red-600 hover:bg-red-700'
+        : 'bg-pink-600 hover:bg-pink-700'
+    }`}
+  >
+    {speaking ? 'AI Speaking...' : listening ? 'Listening...' : 'Start Listening'}
+  </button>
+
+  <button
+  onClick={handleStopAndSayGoodbye}
+  className="w-full px-4 py-2 mt-4 bg-red-600 rounded hover:bg-red-700 transition"
+>
+  Stop
+</button>
+
+
+
+  <button
+    onClick={handleSaveConversation}
+    className="w-full px-4 py-2 mt-4 bg-green-600 rounded hover:bg-green-700 transition"
+  >
+    Save Conversation
+  </button>
+</div>
+
           </>
         ) : (
           <div className="flex-1 flex items-center justify-center">

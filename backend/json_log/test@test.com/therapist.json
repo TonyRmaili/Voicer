@@ -10,5 +10,85 @@
     {
         "role": "assistant",
         "content": "I'm really sorry to hear that you're feeling this way. Bad dreams can often leave us with lingering feelings that are hard to shake off. It's completely normal to have days where sadness creeps in, even when we don't fully understand why.\n\nCan you share a little more about the dream, if you feel comfortable? Sometimes expressing what happened can help us process those feelings. What emotions are coming up for you today?"
+    },
+    {
+        "role": "user",
+        "content": "hello how are you"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello! I'm here to support you. How are you feeling today? If there's something on your mind or something you'd like to talk about, I'm all ears."
+    },
+    {
+        "role": "user",
+        "content": "how are you"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm here to listen and support you. How are you feeling today? What\u2019s been on your mind?"
+    },
+    {
+        "role": "user",
+        "content": "Hi how are you"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello! I'm here for you. How are you doing today? If there's anything you'd like to discuss or share, please feel free to do so."
+    },
+    {
+        "role": "user",
+        "content": "10 * 10 * 10 * 500 explain it to me"
+    },
+    {
+        "role": "assistant",
+        "content": "I appreciate your curiosity, but I'm here to provide support and guidance around emotions and personal experiences. If you're feeling something you'd like to talk about or explore further, I'm here to listen. How are you feeling today?"
+    },
+    {
+        "role": "user",
+        "content": "what is 100 * 5"
+    },
+    {
+        "role": "assistant",
+        "content": "I see you're asking about calculations, but my focus is on providing emotional support and guidance. If you're feeling something you'd like to share or discuss, please let me know. How are you feeling today?"
+    },
+    {
+        "role": "user",
+        "content": "how are you today"
+    },
+    {
+        "role": "assistant",
+        "content": "Thank you for asking! I'm here to support you. How are you feeling today? Is there something on your mind that you'd like to talk about?"
+    },
+    {
+        "role": "user",
+        "content": "yes it is"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm glad you want to share! What\u2019s been on your mind? I\u2019m here to listen and support you in any way I can."
+    },
+    {
+        "role": "user",
+        "content": "what's up brother"
+    },
+    {
+        "role": "assistant",
+        "content": "I\u2019m here to offer support and listen to you. How are you feeling today? If there\u2019s something on your mind that you\u2019d like to talk about, I\u2019m here for you."
+    },
+    {
+        "role": "user",
+        "content": "hey"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello! How are you today? If there's anything you\u2019d like to share or discuss, I\u2019m here to listen."
+    },
+    {
+        "role": "user",
+        "content": "shut up"
+    },
+    {
+        "role": "assistant",
+        "content": "I understand that you might be feeling frustrated or upset right now. It's okay to express those feelings. If you'd like to talk about what's going on or if there's something specific on your mind, I'm here to listen and support you."
     }
 ]

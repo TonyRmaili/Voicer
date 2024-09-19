@@ -2,6 +2,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 import json
+import openai
 from LLM_text.system_prompt import teacher, therapist, chef, personal_trainer
 
 
@@ -13,7 +14,7 @@ class LLMTexter:
             api_key=os.getenv("OPENAI_API_KEY")
         )
         
-        # define the paths using os.path.join for platform-independent path construction
+        # define the paths using os.çpath.join for platform-independent path construction
         self.json_path = os.path.join(".", "json_log")
         self.user = user
         self.full_path = os.path.join(self.json_path, self.user, f"{role}.json")
